@@ -7,38 +7,36 @@ import java.net.SocketAddress;
  */
 public class CallListener {
     public final int port = 28411;
-    private String localNick,localIp,remoteNick;
+    private String localNick, localIp, remoteNick;
     private boolean busy;
     private SocketAddress remoteAddress;
     private SocketAddress listenAddress;
 
-    public CallListener()throws IOException {
+    public CallListener() throws IOException {
         this.localNick = "Unnamed";
-        this.localIp="127.0.0.1";
+        this.localIp = "127.0.0.1";
     }
 
-    public CallListener(String localNick)throws IOException{
+    public CallListener(String localNick) throws IOException {
         this.localNick = localNick;
     }
 
-    CallListener(String localNick, String localIp)throws IOException{
+    CallListener(String localNick, String localIp) throws IOException {
         this.localNick = localNick;
         this.localIp = localIp;
     }
 
-    public Connection getConnection()throws IOException{
+    public Connection getConnection() throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         Socket socket = serverSocket.accept();
 
         Connection connection = new Connection(socket);
 
-        if (busy)
-        {
-            connection.sendNickBusy("busy ",localNick);
+        if (busy) {
+            connection.sendNickBusy("busy ", localNick);
             //remoteNick = receiveRemoteNick(connection);
             return null;
-        }
-        else {
+        } else {
             setBusy(true);
             connection.sendNickHello("Hello", localNick);
             return connection;
@@ -46,7 +44,7 @@ public class CallListener {
 
     }
 
-    public SocketAddress getListenAddress(){
+    public SocketAddress getListenAddress() {
         return listenAddress;
     }
 
@@ -58,11 +56,11 @@ public class CallListener {
         return remoteAddress;
     }
 
-    String getRemoteNick(){
+    String getRemoteNick() {
         return remoteNick;
     }
 
-    public boolean isBusy(){
+    public boolean isBusy() {
         return busy;
     }
 
@@ -70,8 +68,8 @@ public class CallListener {
         this.busy = busy;
     }
 
-    public void setListenAddress(SocketAddress listenAddress){
+    public void setListenAddress(SocketAddress listenAddress) {
         this.listenAddress = listenAddress;
     }
-
+}
 
