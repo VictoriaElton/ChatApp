@@ -49,8 +49,9 @@ public class Connection {
         sc.close();
     }
 
-    public Command cmd receive() throws IOException {
-
+    public String receive() throws IOException {
+        Command cmd = new Command(scr.nextLine());
+        return cmd.getresult();
     }
     public void sendMsg(String msg){
         System.out.println(msg);

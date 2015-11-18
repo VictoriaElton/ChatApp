@@ -9,7 +9,7 @@ public class Command {
         command = s;
     }
 
-    public void getresult() {
+    public String  getresult() {
         switch (command) {
             case "sendMsg": {
                 returning = "cmdsendMsg";
@@ -20,7 +20,7 @@ public class Command {
                 break;
             }
             case"Busy":{
-                returning="cmdBusy"
+                returning="cmdBusy";
                 break;
             }
             case "Rejected":{
@@ -31,9 +31,8 @@ public class Command {
                 returning="cmdDiscon";
                 break;
             }
-            case ""
-
+        break;
         }
-
+    return returning;
     }
 }
