@@ -31,7 +31,6 @@ public class Command {
                 returning="cmdDiscon";
                 break;
             }
-        break;
         }
     return returning;
     }
