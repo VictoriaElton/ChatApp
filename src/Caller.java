@@ -10,48 +10,48 @@ import java.net.SocketAddress;
 
 public class Caller {
     private String localNick;
-    private String friendNick;
-    private int port;
-    private SocketAddress remoteAddress;
+    private String remoteNick;
+    SocketAddress remoteAdress;
+    private int port=28411;
     private String ip;
+    private CallStatus status;
 
     public Caller(){
         this.localNick="unnamed";
-        this.ip="127.0.0.1";
     }
 
     public Caller(String localNick){
         this.localNick=localNick;
-        this.ip="127.0.0.1";
     }
 
-    public Caller(String localNick, SocketAddress remoteAddress){
+    public Caller(String localNick,SocketAddress remoteAdress){
         this.localNick=localNick;
-        this.remoteAddress=remoteAddress;
-        this.ip="127.0.0.1";
+        this.remoteAdress=remoteAdress;
     }
 
     public Caller(String localNick, String ip){
         this.localNick=localNick;
-        this.ip=ip;
+        this.remoteAdress=new InetSocketAddress(ip,port);
     }
 
     public Connection call(){
         try{
-            Socket socket=new Socket(ip, 28411);
+            Socket socket=new Socket();
+            socket.connect(this.remoteAdress);
             return new Connection(socket);
         }
         catch (IOException e){
+            e.printStackTrace();
             return null;
         }
     }
 
-    public SocketAddress getRemoteAddress() {
-        return remoteAddress;
+    public SocketAddress getRemoteAdress() {
+        return remoteAdress;
     }
 
-    public void setRemoteAddress(SocketAddress remoteAddress) {
-        this.remoteAddress = remoteAddress;
+    public void setRemoteAdress(SocketAddress remoteAdress) {
+        this.remoteAdress = remoteAdress;
     }
 
     public String getLocalNick() {
@@ -62,10 +62,19 @@ public class Caller {
         this.localNick = localNick;
     }
 
-    public String getFriendNick() {
-        return friendNick;
+    public String getRemoteNick() {
+        return remoteNick;
     }
     public String toString() {
-        return "Local nick: " + localNick + ", IP: " + ip + ", remote nick: " + friendNick + ", remote address: " + remoteAddress;
+        return "Local nick: " + localNick + ", IP: " + ip + ", remote nick: " + remoteNick + ", remote address: " + remoteAdress;
+    }
+
+    public static enum CallStatus {
+        BUSY, NO_SERVICE, NOT_ACCESSIBLE, OK, REJECTED
+    }
+
+
+    public static void main(String[] args) {
+
     }
 }
