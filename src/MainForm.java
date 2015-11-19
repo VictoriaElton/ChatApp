@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Scanner;
 
-public class MainForm extends JFrame{
+public class MainForm extends JFrame implements Observer{
     // Variables declaration - do not modify
     private javax.swing.JTextField IPText;
     private javax.swing.JTextArea chatBox;
@@ -26,16 +29,14 @@ public class MainForm extends JFrame{
     private  CommandThread ct = new CommandThread();
 
     // End of variables declaration
-
+    @Override
+    public void update(Observable o, Object arg) {
+                Scanner sc=connect.getScr();
+        chatBox.append(sc.nextLine()+"\n");
+    }
     public MainForm() throws IOException {
-        CallListenerThread clt = new CallListenerThread();
-        clt.start();
-
-
-
-
-
-
+       // CallListenerThread clt = new CallListenerThread();
+      //  clt.start();
 
         jPanel1 = new javax.swing.JPanel();
         logInButton = new javax.swing.JButton();
@@ -223,10 +224,12 @@ public class MainForm extends JFrame{
     }
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        SocketAddress sa= new InetSocketAddress(IPText.getText(),28411);
-        cl.setRemoteAdress(sa);
+        //SocketAddress sa= new InetSocketAddress(IPText.getText(),5832);
+        cl.setIp(IPText.getText());
+        chatBox.append(IPText.getText());
       connect =  cl.call();
-        ct.setCon(connect);
+        connect.sendNickHello("CHATAPPISHE 2015","Lol");
+       ct.setCon(connect);
         ct.start();
     }
 
@@ -270,4 +273,6 @@ public class MainForm extends JFrame{
             }
         });
     }
+
+
 }

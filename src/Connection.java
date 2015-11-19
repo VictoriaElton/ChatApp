@@ -12,6 +12,10 @@ public class Connection {
     private Scanner scr;
     private Socket sc;
 
+    public Scanner getScr() {
+        return scr;
+    }
+
     public Connection(Socket soc) throws IOException {
         sc =soc;
         pw = new PrintWriter(sc.getOutputStream());

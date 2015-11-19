@@ -37,6 +37,7 @@ public class CommandThread extends Observable implements Runnable {
                 Command cmd = con.receive();
                 if (cmd != null) {
                     lastcommand = cmd;
+                    notifyObservers();
                 }
             } catch (IOException e) {
                 stop = true;

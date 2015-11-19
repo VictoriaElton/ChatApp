@@ -88,9 +88,6 @@ private Caller.CallStatus callStatus;
         this.startORstop = false;
     }
 
-    public static void main(String[] args) {
-
-    }
 
 
 }

@@ -12,7 +12,7 @@ public class Caller {
     private String localNick;
     private String remoteNick;
     SocketAddress remoteAdress;
-    private int port=28411;
+    private int port=5832;
     private String ip;
     private CallStatus status;
 
@@ -36,8 +36,7 @@ public class Caller {
 
     public Connection call(){
         try{
-            Socket socket=new Socket();
-            socket.connect(this.remoteAdress);
+            Socket socket=new Socket(ip,port);
             return new Connection(socket);
         }
         catch (IOException e){
@@ -67,6 +66,10 @@ public class Caller {
     }
     public String toString() {
         return "Local nick: " + localNick + ", IP: " + ip + ", remote nick: " + remoteNick + ", remote address: " + remoteAdress;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public static enum CallStatus {

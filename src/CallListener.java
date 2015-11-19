@@ -6,7 +6,7 @@ import java.net.SocketAddress;
  * Created by Alexandr on 18.11.2015.
  */
 public class CallListener {
-    public final int port = 28411;
+    public final int port = 5832;
     private String localNick, localIp, remoteNick;
     private boolean busy;
     private SocketAddress remoteAddress;
