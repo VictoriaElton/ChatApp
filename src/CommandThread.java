@@ -8,8 +8,11 @@ public class CommandThread extends Observable implements Runnable {
     Command lastcommand;
     boolean stop;
     Connection con;
-    public CommandThread(Connection connect){
-        con=connect;
+    public CommandThread(){
+    }
+
+    public void setCon(Connection con) {
+        this.con = con;
     }
 
     public Command getLastcommand(){

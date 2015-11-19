@@ -19,8 +19,9 @@ public class Connection {
     }
 
     public void sendNickHello(String ver,String nick) {
-        pw.println("MESSAGE");
-        pw.println(ver+" user "+nick);
+        pw.println("MESSAGE\n");
+        pw.flush();
+        pw.println(ver+" user "+nick+"\n");
         pw.flush();
     }
     public void sendNickBusy(String ver,String nick){

@@ -1,10 +1,11 @@
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.util.Observable;
 
 /**
  * Created by Alexandr on 19.11.2015.
  */
-public class CallListenerThread implements Runnable {
+public class CallListenerThread extends Observable implements Runnable {
 private CallListener callListener;
 private Caller.CallStatus callStatus;
 
@@ -57,6 +58,8 @@ private Caller.CallStatus callStatus;
                 callStatus = Caller.CallStatus.BUSY;
             }else {
                 callStatus = Caller.CallStatus.OK;
+
+                connect.sendNickHello("CHATAPPISHE 2015",callListener.getLocalNick());
             }
         }
 

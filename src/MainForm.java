@@ -21,13 +21,21 @@ public class MainForm extends JFrame{
     private javax.swing.JTextArea messageText;
     private javax.swing.JButton sendButton;
     private Caller cl = new Caller();
+    private CallListener cllis =new CallListener();
     private Connection connect;
+    private  CommandThread ct = new CommandThread();
 
     // End of variables declaration
 
     public MainForm() throws IOException {
         CallListenerThread clt = new CallListenerThread();
         clt.start();
+
+
+
+
+
+
 
         jPanel1 = new javax.swing.JPanel();
         logInButton = new javax.swing.JButton();
@@ -203,6 +211,7 @@ public class MainForm extends JFrame{
 
     private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {
         cl.setLocalNick(logInText.getText());
+        cllis.setLocalNick(logInText.getText());
 
          //�����, �������� ������
         // TODO add your handling code here:
@@ -217,6 +226,8 @@ public class MainForm extends JFrame{
         SocketAddress sa= new InetSocketAddress(IPText.getText(),28411);
         cl.setRemoteAdress(sa);
       connect =  cl.call();
+        ct.setCon(connect);
+        ct.start();
     }
 
 
