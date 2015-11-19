@@ -1,5 +1,9 @@
 
 import javax.swing.*;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 
 public class MainForm extends JFrame{
     // Variables declaration - do not modify
@@ -16,9 +20,14 @@ public class MainForm extends JFrame{
     private javax.swing.JTextField logInText;
     private javax.swing.JTextArea messageText;
     private javax.swing.JButton sendButton;
+    private Caller cl = new Caller();
+    private Connection connect;
+
     // End of variables declaration
 
-    public MainForm(){
+    public MainForm() throws IOException {
+        CallListenerThread clt = new CallListenerThread();
+        clt.start();
 
         jPanel1 = new javax.swing.JPanel();
         logInButton = new javax.swing.JButton();
@@ -179,12 +188,13 @@ public class MainForm extends JFrame{
     }// </editor-fold>
 
 
-    //бмхлюмхе!!!
-    //сбюцю!!
+    //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫!!!
+    //О©╫О©╫О©╫О©╫О©╫!!
     //ATTENTION!!
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        messageText.getText();//рейяр яннаыемхъ, йнрнпши бюл мсфмн нропюбхрэ
-        // TODO add your handling code here:
+        connect.sendMsg(messageText.getText() + "\n");
+        chatBox.append(messageText.getText() + "\n");
+
     }
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,7 +202,9 @@ public class MainForm extends JFrame{
     }
 
     private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        logInText.getText(); //кнцхм, ббедммши чгепнл
+        cl.setLocalNick(logInText.getText());
+
+         //О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
         // TODO add your handling code here:
     }
 
@@ -202,8 +214,9 @@ public class MainForm extends JFrame{
     }
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        IPText.getText();//IP, ббедеммши чгепнл
-        // TODO add your handling code here:
+        SocketAddress sa= new InetSocketAddress(IPText.getText(),28411);
+        cl.setRemoteAdress(sa);
+      connect =  cl.call();
     }
 
 
@@ -238,7 +251,11 @@ public class MainForm extends JFrame{
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainForm().setVisible(true);
+                try {
+                    new MainForm().setVisible(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

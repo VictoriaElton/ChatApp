@@ -73,4 +73,8 @@ public class CallListener {
     public void setListenAddress(SocketAddress listenAddress) {
         this.listenAddress = listenAddress;
     }
+
+    public void setLocalNick(String localNick) {
+        this.localNick = localNick;
+    }
 }
