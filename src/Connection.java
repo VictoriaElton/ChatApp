@@ -19,42 +19,42 @@ public class Connection {
     }
 
     public void sendNickHello(String ver,String nick) {
-        pw.println("sendMsg");
+        pw.println("MESSAGE");
         pw.println(ver+" user "+nick);
         pw.flush();
     }
     public void sendNickBusy(String ver,String nick){
-        pw.println("sendMsg");
+        pw.println("MESSAGE");
         pw.println(ver+" user "+nick+" busy");
-        pw.println("Busy");
+        pw.println("BUSY");
     }
     public void accept(){
         pw.println("Accepted");
         pw.flush();
     }
     public void reject() throws IOException {
-        pw.println("sendMsg");
+        pw.println("MESSAGE");
         pw.println("User rejected you");
-        pw.println("Rejected");
+        pw.println("REJECTED");
         pw.flush();
         pw.close();
         sc.close();
     }
     public void Disconnect(String nick) throws IOException {
-        pw.println("sendMsg");
+        pw.println("MESSAGE");
         pw.println("User "+nick+"Was disconnected");
-        pw.println("Disconnected");
+        pw.println("DISCONNECTED");
         pw.flush();
         pw.close();
         sc.close();
     }
 
-    public String receive() throws IOException {
-        Command cmd = new Command(scr.nextLine());
-        return cmd.getresult();
-    }
+   public Command receive() throws IOException {
+            return Command.getresult(scr.nextLine());
+   }
     public void sendMsg(String msg){
         System.out.println(msg);
+        pw.flush();
         pw.println(msg);
         pw.flush();
     }

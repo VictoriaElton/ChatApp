@@ -2,37 +2,29 @@
  * Created by Pavel on 17.11.2015.
  */
 public class Command {
-    private String command;
-    private String returning;
+    private final Command.CommandType type;
+    static enum CommandType {DISCONNECT, ACCEPT, REJECT, MESSAGE};
 
-    public Command(String s) {
-        command = s;
+    public Command(CommandType t) {
+        type =t;
     }
-
-    public String  getresult() {
-        switch (command) {
-            case "sendMsg": {
-                returning = "cmdsendMsg";
-                break;
-            }
-            case "Accepted":{
-                returning="cmdAccept";
-                break;
-            }
-            case"Busy":{
-                returning="cmdBusy";
-                break;
-            }
-            case "Rejected":{
-                returning="cmdReject";
-                break;
-            }
-            case "Disconnected":{
-                returning="cmdDiscon";
-                break;
-            }
-        break;
+    public static Command getresult(String s){
+        if (s.equals("DISCONNECTED")){
+            return new Command(CommandType.DISCONNECT);
         }
-    return returning;
+        if (s.equals("ACCEPTED")){
+            return  new Command(CommandType.ACCEPT);
+        }
+        if(s.equals("REJECTED")){
+            return  new Command((CommandType.REJECT));
+        }
+        if(s.equals("MESSAGE")){
+            return new Command((CommandType.MESSAGE));
+        }
+        return null;
     }
+
+
 }
+
+
