@@ -1,9 +1,10 @@
 import java.io.IOException;
+import java.util.Observable;
 
 /**
  * Created by Pavel on 19.11.2015.
  */
-public class CommandThread extends Thread implements Runnable {
+public class CommandThread extends Observable implements Runnable {
     Command lastcommand;
     boolean stop;
     Connection con;
@@ -28,13 +29,15 @@ public class CommandThread extends Thread implements Runnable {
     }
 
     public void run(){
-        try {
-            Command cmd =con.receive();
-            if(cmd!=null){
-                lastcommand=cmd;
+        do {
+            try {
+                Command cmd = con.receive();
+                if (cmd != null) {
+                    lastcommand = cmd;
+                }
+            } catch (IOException e) {
+                stop = true;
             }
-        } catch (IOException e) {
-            stop=true;
         }
         while(!stop);
     }

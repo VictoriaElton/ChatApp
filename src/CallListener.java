@@ -74,4 +74,3 @@ public class CallListener {
         this.listenAddress = listenAddress;
     }
 }
-
