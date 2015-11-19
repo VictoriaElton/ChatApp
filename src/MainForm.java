@@ -178,23 +178,31 @@ public class MainForm extends JFrame{
         pack();
     }// </editor-fold>
 
+
+    //бмхлюмхе!!!
+    //сбюцю!!
+    //ATTENTION!!
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        messageText.getText();//рейяр яннаыемхъ, йнрнпши бюл мсфмн нропюбхрэ
         // TODO add your handling code here:
     }
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        messageText.setText("");
     }
 
     private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        logInText.getText(); //кнцхм, ббедммши чгепнл
         // TODO add your handling code here:
     }
 
     private void dissconectButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
         // TODO add your handling code here:
     }
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        IPText.getText();//IP, ббедеммши чгепнл
         // TODO add your handling code here:
     }
 
