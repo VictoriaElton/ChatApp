@@ -31,12 +31,12 @@ public class MainForm extends JFrame implements Observer{
     // End of variables declaration
     @Override
     public void update(Observable o, Object arg) {
-                Scanner sc=connect.getScr();
-        chatBox.append(sc.nextLine()+"\n");
+
+        chatBox.append((String)arg);
     }
     public MainForm() throws IOException {
-       // CallListenerThread clt = new CallListenerThread();
-      //  clt.start();
+        CallListenerThread clt = new CallListenerThread();
+        clt.start();
 
         jPanel1 = new javax.swing.JPanel();
         logInButton = new javax.swing.JButton();

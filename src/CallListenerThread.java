@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.Observable;
+import java.util.Scanner;
 
 /**
  * Created by Alexandr on 19.11.2015.
@@ -8,8 +9,10 @@ import java.util.Observable;
 public class CallListenerThread extends Observable implements Runnable {
 private CallListener callListener;
 private Caller.CallStatus callStatus;
+    private String text;
+    private Scanner sc;
 
-    private boolean busy, startORstop;
+    private boolean busy=false, startORstop;
     private Connection connect;
     private Caller caller;
 
@@ -50,16 +53,16 @@ private Caller.CallStatus callStatus;
     public void run() {
         while (true){
             try {
-                connect = callListener.getConnection();
+                if(!busy) {
+                    connect = callListener.getConnection();
+                    sc=connect.getScr();
+                    busy=true;
+                }
+                else{
+                    System.out.println(sc.nextLine());
+                }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            if (connect == null) {
-                callStatus = Caller.CallStatus.BUSY;
-            }else {
-                callStatus = Caller.CallStatus.OK;
-
-                connect.sendNickHello("CHATAPPISHE 2015",callListener.getLocalNick());
             }
         }
 

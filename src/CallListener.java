@@ -36,7 +36,6 @@ public class CallListener {
 
         if (busy) {
             connection.sendNickBusy("busy ", localNick);
-            //remoteNick = receiveRemoteNick(connection);
             return null;
         } else {
             setBusy(true);
