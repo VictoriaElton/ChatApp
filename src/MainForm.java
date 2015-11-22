@@ -29,14 +29,8 @@ public class MainForm extends JFrame implements Observer{
     private  CommandThread ct = new CommandThread();
 
     // End of variables declaration
-    @Override
-    public void update(Observable o, Object arg) {
 
-        chatBox.append((String)arg);
-    }
     public MainForm() throws IOException {
-        CallListenerThread clt = new CallListenerThread();
-        clt.start();
 
         jPanel1 = new javax.swing.JPanel();
         logInButton = new javax.swing.JButton();
@@ -266,12 +260,20 @@ public class MainForm extends JFrame implements Observer{
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new MainForm().setVisible(true);
+                    MainForm mf = new MainForm();
+                    CallListenerThread clt =new CallListenerThread();
+                    clt.start();
+                    clt.addObserver(mf);
+                    mf.setVisible(true);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+    @Override
+    public void update(Observable o, Object arg) {
+        chatBox.append((String)arg);
     }
 
 

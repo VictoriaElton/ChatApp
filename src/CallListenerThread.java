@@ -59,7 +59,9 @@ private Caller.CallStatus callStatus;
                     busy=true;
                 }
                 else{
-                    System.out.println(sc.nextLine());
+                    text=sc.nextLine();
+                    setChanged();
+                    notifyObservers(new String (text));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
