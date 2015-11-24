@@ -239,7 +239,7 @@ public class MainForm extends JFrame implements Observer{
         cl.setIp(IPText.getText());
         chatBox.append(IPText.getText());
       connect =  cl.call();
-        connect.sendNickHello("CHATAPPISHE 2015","Lol");
+        connect.sendNickHello("CHATAPPISHE 2015",cl.getLocalNick());
 
         IPText.setEnabled(false);
         connectButton.setEnabled(false);
