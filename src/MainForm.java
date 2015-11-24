@@ -11,9 +11,12 @@ import java.util.Scanner;
 public class MainForm extends JFrame implements Observer{
     // Variables declaration - do not modify
     private javax.swing.JTextField IPText;
+    private javax.swing.JButton acceptButton;
+    private javax.swing.JDialog acceptConnection;
     private javax.swing.JTextArea chatBox;
     private javax.swing.JButton clearButton;
     private javax.swing.JButton connectButton;
+    private javax.swing.JLabel connectLabel;
     private javax.swing.JButton dissconectButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -22,6 +25,7 @@ public class MainForm extends JFrame implements Observer{
     private javax.swing.JButton logInButton;
     private javax.swing.JTextField logInText;
     private javax.swing.JTextArea messageText;
+    private javax.swing.JButton rejectButton;
     private javax.swing.JButton sendButton;
     private Caller cl = new Caller();
     private CallListener cllis =new CallListener();
@@ -54,6 +58,7 @@ public class MainForm extends JFrame implements Observer{
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Settings", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monotype Corsiva", 0, 18))); // NOI18N
 
+
         logInButton.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         logInButton.setText("Log in");
         logInButton.addActionListener(new java.awt.event.ActionListener() {
@@ -72,6 +77,7 @@ public class MainForm extends JFrame implements Observer{
 
         dissconectButton.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         dissconectButton.setText("Dissconect");
+        dissconectButton.setEnabled(false);
         dissconectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dissconectButtonActionPerformed(evt);
@@ -117,6 +123,7 @@ public class MainForm extends JFrame implements Observer{
 
         sendButton.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
         sendButton.setText("Send");
+        sendButton.setEnabled(false);
         sendButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,10 +141,12 @@ public class MainForm extends JFrame implements Observer{
 
         messageText.setColumns(20);
         messageText.setRows(5);
+        messageText.setEnabled(false);
         jScrollPane2.setViewportView(messageText);
 
         chatBox.setColumns(20);
         chatBox.setRows(5);
+        chatBox.setEnabled(false);
         jScrollPane3.setViewportView(chatBox);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -191,8 +200,6 @@ public class MainForm extends JFrame implements Observer{
     }// </editor-fold>
 
 
-    //��������!!!
-    //�����!!
     //ATTENTION!!
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {
         connect.sendMsg(messageText.getText() + "\n");
@@ -208,13 +215,22 @@ public class MainForm extends JFrame implements Observer{
         cl.setLocalNick(logInText.getText());
         cllis.setLocalNick(logInText.getText());
 
-         //�����, �������� ������
-        // TODO add your handling code here:
+        logInText.setEnabled(false);
+        logInButton.setEnabled(false);
+
     }
 
     private void dissconectButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
         // TODO add your handling code here:
+
+        sendButton.setEnabled(false);
+        clearButton.setEnabled(false);
+        messageText.setEnabled(false);
+        logInText.setEnabled(true);
+        logInButton.setEnabled(true);
+        IPText.setEnabled(true);
+        connectButton.setEnabled(true);
+        dissconectButton.setEnabled(false);
     }
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,6 +241,12 @@ public class MainForm extends JFrame implements Observer{
         connect.sendNickHello("CHATAPPISHE 2015","Lol");
        ct.setCon(connect);
         ct.start();
+
+        IPText.setEnabled(false);
+        connectButton.setEnabled(false);
+        dissconectButton.setEnabled(true);
+        messageText.setEnabled(true);
+        sendButton.setEnabled(true);
     }
 
 

@@ -1,7 +1,10 @@
+import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.nio.file.LinkOption;
+
 /**
  * Created by Alexandr on 18.11.2015.
  */
@@ -31,6 +34,13 @@ public class CallListener {
     public Connection getConnection() throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         Socket socket = serverSocket.accept();
+
+        //DIALOG
+        int reply = JOptionPane.showConfirmDialog(null,"Accept incoming connection?",null,JOptionPane.YES_NO_OPTION);
+        if(reply== JOptionPane.NO_OPTION){
+            //DISSCONECT
+        }
+        //END DIALOG
 
         Connection connection = new Connection(socket);
 
