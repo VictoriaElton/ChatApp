@@ -204,6 +204,7 @@ public class MainForm extends JFrame implements Observer{
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {
         connect.sendMsg(messageText.getText() + "\n");
         chatBox.append(messageText.getText() + "\n");
+        messageText.setText("");
 
     }
 
@@ -239,8 +240,6 @@ public class MainForm extends JFrame implements Observer{
         chatBox.append(IPText.getText());
       connect =  cl.call();
         connect.sendNickHello("CHATAPPISHE 2015","Lol");
-       ct.setCon(connect);
-        ct.start();
 
         IPText.setEnabled(false);
         connectButton.setEnabled(false);
