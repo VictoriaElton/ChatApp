@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.Observable;
@@ -15,17 +16,37 @@ private Caller.CallStatus callStatus;
     private boolean busy=false, startORstop;
     private Connection connect;
     private Caller caller;
+    private JTextField IPText;
+    private JButton connectButton;
+    private JButton dissconectButton;
+    private JTextArea messageText;
+    private JButton sendButton;
 
-    public CallListenerThread()throws IOException {
+    public CallListenerThread(JTextField IPText, JButton connectButton, JButton dissconectButton, JTextArea messageText, JButton sendButton)throws IOException {
         callListener = new CallListener();
+        this.IPText=IPText;
+        this.connectButton=connectButton;
+        this.dissconectButton=dissconectButton;
+        this.messageText=messageText;
+        this.sendButton=sendButton;
     }
 
-    public CallListenerThread(String localNick)throws IOException{
+    public CallListenerThread(String localNick,JTextField IPText, JButton connectButton, JButton dissconectButton, JTextArea messageText, JButton sendButton)throws IOException{
         callListener = new CallListener(localNick);
+        this.IPText=IPText;
+        this.connectButton=connectButton;
+        this.dissconectButton=dissconectButton;
+        this.messageText=messageText;
+        this.sendButton=sendButton;
     }
 
-    public CallListenerThread(String localNick, String localIp)throws IOException{
+    public CallListenerThread(String localNick, String localIp,JTextField IPText, JButton connectButton, JButton dissconectButton, JTextArea messageText, JButton sendButton)throws IOException{
         callListener = new CallListener(localNick,localIp);
+        this.IPText=IPText;
+        this.connectButton=connectButton;
+        this.dissconectButton=dissconectButton;
+        this.messageText=messageText;
+        this.sendButton=sendButton;
     }
 
 
@@ -50,6 +71,14 @@ private Caller.CallStatus callStatus;
 
     }
 
+    public void blockButton(){
+        this.IPText.setEnabled(false);
+        this.connectButton.setEnabled(false);
+        this.dissconectButton.setEnabled(true);
+        this.messageText.setEnabled(true);
+        this.sendButton.setEnabled(true);
+    }
+
     public void run() {
         while (true){
             try {
@@ -57,6 +86,7 @@ private Caller.CallStatus callStatus;
                     connect = callListener.getConnection();
                     sc=connect.getScr();
                     busy=true;
+                    blockButton();
                 }
                 else{
                     text=sc.nextLine();

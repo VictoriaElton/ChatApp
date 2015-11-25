@@ -10,23 +10,20 @@ import java.util.Scanner;
 
 public class MainForm extends JFrame implements Observer{
     // Variables declaration - do not modify
-    private javax.swing.JTextField IPText;
-    private javax.swing.JButton acceptButton;
-    private javax.swing.JDialog acceptConnection;
-    private javax.swing.JTextArea chatBox;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JButton connectButton;
-    private javax.swing.JLabel connectLabel;
-    private javax.swing.JButton dissconectButton;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JButton logInButton;
-    private javax.swing.JTextField logInText;
-    private javax.swing.JTextArea messageText;
-    private javax.swing.JButton rejectButton;
-    private javax.swing.JButton sendButton;
+    private static javax.swing.JTextField IPText = new javax.swing.JTextField();
+    private javax.swing.JTextArea chatBox = new javax.swing.JTextArea();
+    private javax.swing.JButton clearButton = new javax.swing.JButton();
+    private static javax.swing.JButton connectButton = new javax.swing.JButton();
+    private static javax.swing.JButton dissconectButton = new javax.swing.JButton();
+    private javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
+    private javax.swing.JPanel  jPanel2 = new javax.swing.JPanel();
+    private javax.swing.JScrollPane jScrollPane3 = new javax.swing.JScrollPane();
+    private javax.swing.JScrollPane jScrollPane2 = new javax.swing.JScrollPane();
+    private javax.swing.JButton logInButton = new javax.swing.JButton();
+    private javax.swing.JTextField  logInText = new javax.swing.JTextField();
+    private static javax.swing.JTextArea   messageText = new javax.swing.JTextArea();
+    private static javax.swing.JButton sendButton = new javax.swing.JButton();
+
     private Caller cl = new Caller();
     private CallListener cllis =new CallListener();
     private Connection connect;
@@ -35,20 +32,6 @@ public class MainForm extends JFrame implements Observer{
     // End of variables declaration
 
     public MainForm() throws IOException {
-
-        jPanel1 = new javax.swing.JPanel();
-        logInButton = new javax.swing.JButton();
-        connectButton = new javax.swing.JButton();
-        dissconectButton = new javax.swing.JButton();
-        logInText = new javax.swing.JTextField();
-        IPText = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        sendButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        messageText = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        chatBox = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -282,7 +265,7 @@ public class MainForm extends JFrame implements Observer{
             public void run() {
                 try {
                     MainForm mf = new MainForm();
-                    CallListenerThread clt =new CallListenerThread();
+                    CallListenerThread clt =new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
                     clt.start();
                     clt.addObserver(mf);
                     mf.setVisible(true);
