@@ -18,12 +18,12 @@ private Caller.CallStatus callStatus;
     private boolean busy=false, startORstop;
     private Connection connect;
     private Caller caller;
+
     private JTextField IPText;
     private JButton connectButton;
     private JButton dissconectButton;
     private JTextArea messageText;
     private JButton sendButton;
-
 
     public void setIsclickconnection(boolean isclickconnection) {
         this.isclickconnection = isclickconnection;
@@ -88,6 +88,7 @@ private Caller.CallStatus callStatus;
         this.sendButton.setEnabled(true);
     }
 
+
     public void run() {
         while (true){
             try {
@@ -104,8 +105,7 @@ private Caller.CallStatus callStatus;
                     blockButton();
                     setChanged();
                     notifyObservers(new Connection(connect.getSc()));}
-                }
-                else{
+                } else{
                     text=sc.nextLine();
                     setChanged();
                     notifyObservers(new String (text));
