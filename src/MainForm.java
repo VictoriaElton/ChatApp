@@ -23,7 +23,6 @@ public class MainForm extends JFrame implements Observer{
     private static javax.swing.JTextArea   messageText = new javax.swing.JTextArea();
     private static javax.swing.JButton sendButton = new javax.swing.JButton();
 
-
     private Caller cl = new Caller();
     private static CallListenerThread clt;
     private CallListener cllis =new CallListener();
@@ -233,6 +232,9 @@ public class MainForm extends JFrame implements Observer{
         connect =  cl.call();
         connect.sendNickHello("CHATAPPISHE 2015",cl.getLocalNick());
         ishost=false;
+      connect =  cl.call();
+        connect.sendNickHello("CHATAPPISHE 2015",cl.getLocalNick());
+
         IPText.setEnabled(false);
         connectButton.setEnabled(false);
         dissconectButton.setEnabled(true);
@@ -275,6 +277,7 @@ public class MainForm extends JFrame implements Observer{
                 try {
                     MainForm mf = new MainForm();
                    clt =new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
+                    CallListenerThread clt =new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
                     clt.start();
                     clt.addObserver(mf);
                     mf.setVisible(true);
