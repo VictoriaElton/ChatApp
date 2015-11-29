@@ -9,7 +9,7 @@ import java.nio.file.LinkOption;
  * Created by Alexandr on 18.11.2015.
  */
 public class CallListener {
-    public final int port = 5832;
+    public final int port = 28411;
     private String localNick, localIp, remoteNick;
     private boolean busy;
     private SocketAddress remoteAddress;
@@ -36,10 +36,7 @@ public class CallListener {
         Socket socket = serverSocket.accept();
 
         //DIALOG
-        int reply = JOptionPane.showConfirmDialog(null,"Accept incoming connection?",null,JOptionPane.YES_NO_OPTION);
-        if(reply== JOptionPane.NO_OPTION){
-            //DISSCONECT
-        }
+
         //END DIALOG
 
         Connection connection = new Connection(socket);

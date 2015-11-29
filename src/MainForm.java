@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,45 +9,31 @@ import java.util.Scanner;
 
 public class MainForm extends JFrame implements Observer{
     // Variables declaration - do not modify
-    private javax.swing.JTextField IPText;
-    private javax.swing.JButton acceptButton;
-    private javax.swing.JDialog acceptConnection;
-    private javax.swing.JTextArea chatBox;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JButton connectButton;
-    private javax.swing.JLabel connectLabel;
-    private javax.swing.JButton dissconectButton;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JButton logInButton;
-    private javax.swing.JTextField logInText;
-    private javax.swing.JTextArea messageText;
-    private javax.swing.JButton rejectButton;
-    private javax.swing.JButton sendButton;
+    private static javax.swing.JTextField IPText = new javax.swing.JTextField();
+    private javax.swing.JTextArea chatBox = new javax.swing.JTextArea();
+    private javax.swing.JButton clearButton = new javax.swing.JButton();
+    private static javax.swing.JButton connectButton = new javax.swing.JButton();
+    private static javax.swing.JButton dissconectButton = new javax.swing.JButton();
+    private javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
+    private javax.swing.JPanel  jPanel2 = new javax.swing.JPanel();
+    private javax.swing.JScrollPane jScrollPane3 = new javax.swing.JScrollPane();
+    private javax.swing.JScrollPane jScrollPane2 = new javax.swing.JScrollPane();
+    private javax.swing.JButton logInButton = new javax.swing.JButton();
+    private javax.swing.JTextField  logInText = new javax.swing.JTextField();
+    private static javax.swing.JTextArea   messageText = new javax.swing.JTextArea();
+    private static javax.swing.JButton sendButton = new javax.swing.JButton();
+
+
     private Caller cl = new Caller();
+    private static CallListenerThread clt;
     private CallListener cllis =new CallListener();
     private Connection connect;
     private  CommandThread ct = new CommandThread();
+    private boolean ishost=true;
 
     // End of variables declaration
 
     public MainForm() throws IOException {
-
-        jPanel1 = new javax.swing.JPanel();
-        logInButton = new javax.swing.JButton();
-        connectButton = new javax.swing.JButton();
-        dissconectButton = new javax.swing.JButton();
-        logInText = new javax.swing.JTextField();
-        IPText = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        sendButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        messageText = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        chatBox = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -204,11 +189,12 @@ public class MainForm extends JFrame implements Observer{
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {
         connect.sendMsg(messageText.getText() + "\n");
         chatBox.append(messageText.getText() + "\n");
+        messageText.setText("");
 
     }
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        messageText.setText("");
+        messageText.setText( connect.getSc().getInetAddress().toString());
     }
 
     private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,7 +207,14 @@ public class MainForm extends JFrame implements Observer{
     }
 
     private void dissconectButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        clt.stop();
+        try {
+            clt =new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
+            clt.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         sendButton.setEnabled(false);
         clearButton.setEnabled(false);
@@ -234,14 +227,12 @@ public class MainForm extends JFrame implements Observer{
     }
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        //SocketAddress sa= new InetSocketAddress(IPText.getText(),5832);
+        clt.setIsclickconnection(true);
         cl.setIp(IPText.getText());
         chatBox.append(IPText.getText());
-      connect =  cl.call();
-        connect.sendNickHello("CHATAPPISHE 2015","Lol");
-       ct.setCon(connect);
-        ct.start();
-
+        connect =  cl.call();
+        connect.sendNickHello("CHATAPPISHE 2015",cl.getLocalNick());
+        ishost=false;
         IPText.setEnabled(false);
         connectButton.setEnabled(false);
         dissconectButton.setEnabled(true);
@@ -283,7 +274,7 @@ public class MainForm extends JFrame implements Observer{
             public void run() {
                 try {
                     MainForm mf = new MainForm();
-                    CallListenerThread clt =new CallListenerThread();
+                   clt =new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
                     clt.start();
                     clt.addObserver(mf);
                     mf.setVisible(true);
@@ -295,7 +286,37 @@ public class MainForm extends JFrame implements Observer{
     }
     @Override
     public void update(Observable o, Object arg) {
-        chatBox.append((String)arg);
+
+
+         if (ishost) {
+             connect =((Connection)arg);
+             String kek =connect.getSc().getInetAddress().toString();
+             kek=kek.substring(1,kek.length());
+            cl.setIp(kek);
+            connect = cl.call();
+            IPText.setEnabled(false);
+            connectButton.setEnabled(false);
+            dissconectButton.setEnabled(true);
+            messageText.setEnabled(true);
+            sendButton.setEnabled(true);
+            ishost = false;
+        }
+        else {
+             String text = ((String) arg);
+             if ((text == "Reject") || (text == "DISCONNECTED")) {
+                 connect.sendMsg("Reject");
+                 clt.stop();
+                 try {
+                     clt = new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
+                     clt.start();
+                     cl.socketclose();
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                 }
+             }
+             chatBox.append(text);
+         }
+
     }
 
 

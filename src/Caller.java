@@ -12,9 +12,14 @@ public class Caller {
     private String localNick;
     private String remoteNick;
     SocketAddress remoteAdress;
-    private int port=5832;
+    private int port=28411;
     private String ip;
     private CallStatus status;
+    private Socket socket;
+
+    public void socketclose() throws IOException {
+        socket.close();
+    }
 
     public Caller(){
         this.localNick="unnamed";
@@ -36,7 +41,7 @@ public class Caller {
 
     public Connection call(){
         try{
-            Socket socket=new Socket(ip,port);
+            socket=new Socket(ip,port);
             return new Connection(socket);
         }
         catch (IOException e){

@@ -12,6 +12,10 @@ public class Connection {
     private Scanner scr;
     private Socket sc;
 
+    public Socket getSc() {
+        return sc;
+    }
+
     public Scanner getScr() {
         return scr;
     }
