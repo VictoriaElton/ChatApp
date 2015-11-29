@@ -5,9 +5,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.file.LinkOption;
 
-/**
- * Created by Alexandr on 18.11.2015.
- */
+
 public class CallListener {
     public final int port = 28411;
     private String localNick, localIp, remoteNick;
