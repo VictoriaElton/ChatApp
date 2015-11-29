@@ -4,10 +4,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-/**
- * Created by Victoria on 17.11.2015.
- */
-
 public class Caller {
     private String localNick;
     private String remoteNick;
