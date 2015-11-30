@@ -27,13 +27,11 @@ public class Connection {
     }
 
     public void sendNickHello(String ver,String nick) {
-        pw.println("MESSAGE\n");
         pw.flush();
         pw.println(ver+" user "+nick+"\n");
         pw.flush();
     }
     public void sendNickBusy(String ver,String nick){
-        pw.println("MESSAGE");
         pw.println(ver+" user "+nick+" busy");
         pw.println("BUSY");
     }
@@ -42,25 +40,20 @@ public class Connection {
         pw.flush();
     }
     public void reject() throws IOException {
-        pw.println("MESSAGE");
         pw.println("User rejected you");
-        pw.println("REJECTED");
+        pw.println("REJECT");
         pw.flush();
         pw.close();
         sc.close();
     }
-    public void Disconnect(String nick) throws IOException {
-        pw.println("MESSAGE");
-        pw.println("User "+nick+"Was disconnected");
-        pw.println("DISCONNECTED");
+    public void Disconnect() throws IOException {
+        pw.println("User Was disconnected");
+        pw.println("DISCONNECT");
         pw.flush();
         pw.close();
         sc.close();
     }
 
-   public Command receive() throws IOException {
-            return Command.getresult(scr.nextLine());
-   }
     public void sendMsg(String msg){
         System.out.println(msg);
         pw.flush();
