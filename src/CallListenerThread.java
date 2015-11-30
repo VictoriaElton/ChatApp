@@ -95,11 +95,6 @@ private Caller.CallStatus callStatus;
                 if(!busy) {
                     connect = callListener.getConnection();
                     sc=connect.getScr();
-                    int reply = JOptionPane.showConfirmDialog(null,"Accept incoming connection?",null,JOptionPane.YES_NO_OPTION);
-                 //   if(reply== JOptionPane.NO_OPTION){
-                  //      setChanged();
-                    //    notifyObservers(new String ("Reject"));
-                  //  }
                     busy=true;
                     if(!isclickconnection){
                     blockButton();
