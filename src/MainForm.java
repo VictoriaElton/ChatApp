@@ -31,7 +31,6 @@ public class MainForm extends JFrame implements Observer{
     private static CallListenerThread clt;
     private CallListener cllis =new CallListener();
     private Connection connect;
-    private  CommandThread ct = new CommandThread();
     private boolean ishost=true;
 
     // End of variables declaration
@@ -261,9 +260,16 @@ public class MainForm extends JFrame implements Observer{
     }
 
     private void dissconectButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            connect.Disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         clt.stop();
         try {
-            clt =new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
+            ishost=true;
+            clt = new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
+            cl.socketclose();
             clt.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -364,19 +370,74 @@ public class MainForm extends JFrame implements Observer{
             messageText.setEnabled(true);
             sendButton.setEnabled(true);
             ishost = false;
-        }
-        else {
-             String text = ((String) arg);
-             if ((text == "Reject") || (text == "DISCONNECTED")) {
-                 connect.sendMsg("Reject");
-                 clt.stop();
+             int reply = JOptionPane.showConfirmDialog(null,"Accept incoming connection?",null,JOptionPane.YES_NO_OPTION);
+             if(reply== JOptionPane.NO_OPTION){
                  try {
-                     clt = new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
-                     clt.start();
-                     cl.socketclose();
+                     connect.reject();
+                     clt.stop();
+                     try {
+                         ishost=true;
+                         clt = new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
+                         cl.socketclose();
+                         clt.start();
+
+                     } catch (IOException e) {
+                         e.printStackTrace();
+                     }
+                     sendButton.setEnabled(false);
+                     clearButton.setEnabled(false);
+                     messageText.setEnabled(false);
+                     logInText.setEnabled(true);
+                     logInButton.setEnabled(true);
+                     IPText.setEnabled(true);
+                     connectButton.setEnabled(true);
+                     dissconectButton.setEnabled(false);
                  } catch (IOException e) {
                      e.printStackTrace();
                  }
+             }
+        }
+        else {
+             String text = ((String) arg);
+             if ((text == "REJECT") ) {
+                 clt.stop();
+                 try {
+                     ishost=true;
+                     clt = new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
+                     cl.socketclose();
+                     clt.start();
+
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                 }
+                 sendButton.setEnabled(false);
+                 clearButton.setEnabled(false);
+                 messageText.setEnabled(false);
+                 logInText.setEnabled(true);
+                 logInButton.setEnabled(true);
+                 IPText.setEnabled(true);
+                 connectButton.setEnabled(true);
+                 dissconectButton.setEnabled(false);
+             }
+             if ((text == "DISCONNECT")){
+                 clt.stop();
+                 try {
+                     ishost=true;
+                     clt = new CallListenerThread(IPText, connectButton, dissconectButton, messageText, sendButton);
+                     cl.socketclose();
+                     clt.start();
+
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                 }
+                 sendButton.setEnabled(false);
+                 clearButton.setEnabled(false);
+                 messageText.setEnabled(false);
+                 logInText.setEnabled(true);
+                 logInButton.setEnabled(true);
+                 IPText.setEnabled(true);
+                 connectButton.setEnabled(true);
+                 dissconectButton.setEnabled(false);
              }
              chatBox.append(text);
          }
